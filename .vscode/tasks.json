@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Web-Linux static preview",
+      "type": "shell",
+      "command": "python3",
+      "args": [
+        "/workspace/preview_server.py",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "4173"
+      ],
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}

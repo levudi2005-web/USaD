@@ -1,0 +1,33 @@
+.env
+.env.*
+!.env.example
+
+.venv/
+venv/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+coverage/
+*.log
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.sql.gz
+*.bak
+
+# Local credentials and private key material
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+secrets/
+.secrets/
+
+# Older workspace snapshot; current source lives at the repository root.
+backup-before-workspace/

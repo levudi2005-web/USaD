@@ -1,0 +1,3 @@
+# This build needs only the Dockerfile; do not send workspace files or secrets.
+**
+!Dockerfile

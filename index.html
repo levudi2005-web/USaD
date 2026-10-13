@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#080d16" />
+    <meta
+      name="description"
+      content="USaD local-first development workspace"
+    />
+    <link rel="icon" href="data:," />
+    <title>USaD — Developer Workspace</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <a class="brand" href="#dashboard" aria-label="USaD Dashboard">
+          <span class="brand-mark">U<span>.</span></span>
+          <span class="brand-name">USaD<small>DEV WORKSPACE</small></span>
+        </a>
+
+        <div class="workspace-switcher">
+          <span class="workspace-avatar">W</span>
+          <span class="workspace-label">LOCAL WORKSPACE<small>Development</small></span>
+          <span class="switcher-chevron">⌄</span>
+        </div>
+
+        <nav class="nav-menu" aria-label="Điều hướng chính">
+          <span class="nav-heading">WORKSPACE</span>
+          <button class="nav-item active" type="button" data-page="dashboard" aria-current="page">
+            <span class="nav-icon">◫</span><span>Dashboard</span><kbd>⌘ 1</kbd>
+          </button>
+          <button class="nav-item" type="button" data-page="workspace">
+            <span class="nav-icon">▤</span><span>Workspace</span><kbd>⌘ 2</kbd>
+          </button>
+          <button class="nav-item" type="button" data-page="chat">
+            <span class="nav-icon">✳</span><span>AI Chat</span><span class="nav-tag">SOON</span>
+          </button>
+          <button class="nav-item" type="button" data-page="sandbox">
+            <span class="nav-icon">⬡</span><span>Sandbox</span><span class="nav-dot warn"></span>
+          </button>
+          <button class="nav-item" type="button" data-page="terminal">
+            <span class="nav-icon">⌘</span><span>Terminal / Logs</span>
+          </button>
+
+          <span class="nav-heading nav-heading-spaced">MANAGE</span>
+          <button class="nav-item" type="button" data-page="memory">
+            <span class="nav-icon">◈</span><span>Memory</span><span class="nav-tag">SOON</span>
+          </button>
+          <button class="nav-item" type="button" data-page="tasks">
+            <span class="nav-icon">☷</span><span>Tasks</span><span class="nav-tag">SOON</span>
+          </button>
+          <button class="nav-item" type="button" data-page="settings">
+            <span class="nav-icon">⚙</span><span>Settings</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-spacer"></div>
+        <div class="sidebar-runtime">
+          <span class="runtime-light" id="sidebarHealthLight"></span>
+          <span><strong id="sidebarHealthText">Checking services…</strong><small>LOCAL ENVIRONMENT</small></span>
+          <button class="icon-button small-icon" id="refreshServices" type="button" aria-label="Refresh service status" title="Refresh status">↻</button>
+        </div>
+        <div class="sidebar-user">
+          <span class="user-avatar">U</span>
+          <span class="user-label"><strong id="sidebarUserName">Guest session</strong><small id="sidebarUserCaption">Not signed in</small></span>
+          <button class="icon-button small-icon" id="sidebarSignOut" type="button" aria-label="Sign out" title="Sign out" hidden>↪</button>
+        </div>
+      </aside>
+
+      <div class="main-shell">
+        <header class="topbar">
+          <div class="topbar-leading">
+            <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+            <div class="breadcrumbs"><span>USaD</span><span class="breadcrumb-slash">/</span><strong id="pageTitle">Dashboard</strong></div>
+          </div>
+          <div class="topbar-trailing">
+            <span class="connection-state"><span class="runtime-light" id="topbarHealthLight"></span><span id="topbarHealthText">Checking API</span></span>
+            <span class="topbar-divider"></span>
+            <span class="clock-label">LOCAL DEVELOPMENT</span>
+          </div>
+        </header>
+
+        <main class="content">
+          <section class="page active" id="page-dashboard" data-page="dashboard" aria-labelledby="dashboardTitle">
+            <div class="page-heading dashboard-heading">
+              <div>
+                <span class="eyebrow">DEVELOPMENT OVERVIEW</span>
+                <h1 id="dashboardTitle">Good to see you.</h1>
+                <p>Trạng thái workspace và dịch vụ được lấy trực tiếp từ project.</p>
+              </div>
+              <button class="button button-secondary" type="button" data-go="workspace"><span>▤</span> Open workspace</button>
+            </div>
+
+            <div class="status-grid">
+              <article class="status-card">
+                <div class="status-card-top"><span class="status-icon cyan">⌘</span><span class="live-label"><i id="apiIndicator"></i><span id="apiState">Checking</span></span></div>
+                <span class="card-label">BACKEND API</span>
+                <strong class="card-value" id="apiValue">Checking…</strong>
+                <span class="card-caption" id="apiCaption">GET /api/v1/health</span>
+              </article>
+              <article class="status-card">
+                <div class="status-card-top"><span class="status-icon violet">⬡</span><span class="live-label"><i id="sandboxIndicator"></i><span id="sandboxState">Checking</span></span></div>
+                <span class="card-label">SANDBOX RUNTIME</span>
+                <strong class="card-value" id="sandboxValue">Checking…</strong>
+                <span class="card-caption" id="sandboxCaption">Read-only capability endpoint</span>
+              </article>
+              <article class="status-card">
+                <div class="status-card-top"><span class="status-icon blue">▤</span><span class="live-label"><i class="indicator-muted"></i><span>API-backed</span></span></div>
+                <span class="card-label">PROJECT API</span>
+                <strong class="card-value">Implemented</strong>
+                <span class="card-caption">Database readiness is not checked</span>
+              </article>
+            </div>
+
+            <div class="section-row">
+              <div><span class="eyebrow">SYSTEM STATUS</span><h2>Connected services</h2></div>
+              <button class="text-action" type="button" id="refreshServicesLink">Refresh status <span>↻</span></button>
+            </div>
+            <div class="service-table panel">
+              <div class="service-row service-head"><span>SERVICE</span><span>STATUS</span><span>ENDPOINT</span><span>DETAILS</span></div>
+              <div class="service-row">
+                <span class="service-name"><i class="service-symbol cyan">A</i><strong>USaD Backend</strong></span>
+                <span class="service-status" id="tableApiStatus"><i class="indicator-muted"></i>Checking</span>
+                <code>/api/v1/health</code><span class="service-detail" id="tableApiDetail">Process health</span>
+              </div>
+              <div class="service-row">
+                <span class="service-name"><i class="service-symbol violet">S</i><strong>Sandbox provider</strong></span>
+                <span class="service-status" id="tableSandboxStatus"><i class="indicator-muted"></i>Checking</span>
+                <code>/api/v1/sandboxes/capabilities</code><span class="service-detail" id="tableSandboxDetail">Capability status</span>
+              </div>
+              <div class="service-row">
+                <span class="service-name"><i class="service-symbol amber">D</i><strong>Database</strong></span>
+                <span class="service-status"><i class="indicator-muted"></i>Not reported</span>
+                <code>MariaDB</code><span class="service-detail">Health endpoint does not check DB</span>
+              </div>
+              <div class="service-row">
+                <span class="service-name"><i class="service-symbol muted">AI</i><strong>AI provider</strong></span>
+                <span class="service-status"><i class="indicator-muted"></i>Not integrated</span>
+                <code>—</code><span class="service-detail">No provider endpoint configured</span>
+              </div>
+            </div>
+            <p class="footnote"><span class="footnote-mark">i</span> Trạng thái API là dữ liệu trực tiếp. Health chỉ xác nhận tiến trình API, không xác nhận kết nối database.</p>
+          </section>
+
+          <section class="page" id="page-workspace" data-page="workspace" aria-labelledby="workspaceTitle" hidden>
+            <div class="page-heading">
+              <div><span class="eyebrow">PROJECTS &amp; WORKSPACES</span><h1 id="workspaceTitle">Workspace</h1><p>Quản lý metadata dự án qua API backend hiện có.</p></div>
+              <span class="badge badge-muted" id="workspaceAuthBadge">Authentication required</span>
+            </div>
+            <div class="auth-panel panel" id="authPanel">
+              <div class="auth-copy"><span class="status-icon cyan">↗</span><div><h2>Sign in to your workspace</h2><p>Đăng nhập gửi thông tin tới API backend của project. Session token chỉ được giữ trong bộ nhớ tab hiện tại.</p></div></div>
+              <form class="auth-form" id="loginForm">
+                <label>Username<input id="loginUsername" name="username" autocomplete="username" required maxlength="50" /></label>
+                <label>Password<input id="loginPassword" name="password" type="password" autocomplete="current-password" required maxlength="256" /></label>
+                <button class="button button-primary" id="loginButton" type="submit">Sign in <span>→</span></button>
+              </form>
+              <p class="form-error" id="loginError" role="alert" hidden></p>
+            </div>
+
+            <div class="workspace-layout" id="projectWorkspace" hidden>
+              <section class="panel project-panel">
+                <div class="panel-heading"><div><span class="eyebrow">YOUR PROJECTS</span><h2>Projects</h2></div><button class="icon-button" type="button" id="reloadProjects" aria-label="Reload projects" title="Reload">↻</button></div>
+                <div class="project-list" id="projectList" aria-live="polite"></div>
+                <form class="create-form" id="createProjectForm">
+                  <label for="projectName">Create project</label>
+                  <input id="projectName" name="project_name" placeholder="Project name" required minlength="1" maxlength="150" />
+                  <textarea id="projectDescription" name="description" rows="2" maxlength="5000" placeholder="Description (optional)"></textarea>
+                  <button class="button button-primary" type="submit">Create project <span>＋</span></button>
+                  <p class="form-error" id="projectError" role="alert" hidden></p>
+                </form>
+              </section>
+              <section class="panel workspace-detail" id="workspaceDetail">
+                <div class="workspace-empty">
+                  <span class="empty-glyph">▤</span><h2>Select a project</h2>
+                  <p>Project and workspace metadata will be loaded from the authenticated API.</p>
+                </div>
+              </section>
+            </div>
+            <div class="workspace-note"><span>i</span><p>Workspace API lưu metadata, không tạo thư mục hay working copy trên filesystem. DDL phải được áp dụng trước trên database phù hợp; lỗi API sẽ được hiển thị tại chỗ.</p></div>
+          </section>
+
+          <section class="page" id="page-chat" data-page="chat" aria-labelledby="chatTitle" hidden>
+            <div class="page-heading"><div><span class="eyebrow">ASSISTANT</span><h1 id="chatTitle">AI Chat</h1><p>AI conversation chưa được nối vào backend.</p></div><span class="badge badge-muted">Not integrated</span></div>
+            <div class="empty-panel panel"><span class="empty-glyph">✳</span><span class="eyebrow">NO AI ENDPOINT</span><h2>Chat is not available yet</h2><p>Project hiện không có AI chat route hoặc provider được cấu hình. Không có prompt nào được gửi và không tạo phản hồi giả.</p><button class="button button-secondary" type="button" data-go="settings">View supported settings</button></div>
+          </section>
+
+          <section class="page" id="page-sandbox" data-page="sandbox" aria-labelledby="sandboxTitle" hidden>
+            <div class="page-heading"><div><span class="eyebrow">EXECUTION ENVIRONMENT</span><h1 id="sandboxTitle">Sandbox</h1><p>Capabilities được đọc từ API; runtime chưa sẵn sàng thì mọi thao tác vẫn bị khóa.</p></div><span class="badge badge-warning" id="sandboxBadge">Checking status…</span></div>
+            <div class="sandbox-panel panel">
+              <div class="sandbox-panel-title"><span class="status-icon violet">⬡</span><div><h2 id="sandboxHeading">Checking runtime capability</h2><p id="sandboxReason">GET /api/v1/sandboxes/capabilities</p></div></div>
+              <div class="sandbox-facts">
+                <div><span>PROVIDER</span><strong id="sandboxProvider">Checking…</strong></div>
+                <div><span>EXECUTION</span><strong id="sandboxExecution">Checking…</strong></div>
+                <div><span>NETWORK POLICY</span><strong id="sandboxNetwork">Checking…</strong></div>
+              </div>
+              <div class="sandbox-controls">
+                <button class="button button-primary" type="button" disabled title="No isolated sandbox provider is configured">Start sandbox</button>
+                <button class="button button-secondary" type="button" disabled title="No sandbox lifecycle endpoint exists">Stop</button>
+                <button class="button button-secondary" type="button" disabled title="No command endpoint exists">Run command</button>
+              </div>
+            </div>
+            <p class="security-note"><span>!</span><span>Fail-closed: UI không thực thi lệnh trên host. Capability status không chứng minh mức cô lập bảo mật của runtime.</span></p>
+          </section>
+
+          <section class="page" id="page-terminal" data-page="terminal" aria-labelledby="terminalTitle" hidden>
+            <div class="page-heading"><div><span class="eyebrow">RUNTIME OUTPUT</span><h1 id="terminalTitle">Terminal / Logs</h1><p>Chỉ hiển thị output khi có runtime hoặc log source thật.</p></div><span class="badge badge-muted">No log source</span></div>
+            <div class="terminal-frame panel">
+              <div class="terminal-toolbar"><span><i></i><i></i><i></i></span><strong>USAD / TERMINAL</strong><span class="terminal-readonly">READ ONLY</span></div>
+              <div class="terminal-empty"><span class="terminal-prompt">&gt;_</span><h2>No terminal session</h2><p>Backend chưa có command hoặc log-stream endpoint. Không có shell command nào được gửi hoặc chạy.</p><button class="button button-secondary" type="button" data-go="sandbox">Check sandbox status <span>→</span></button></div>
+              <div class="terminal-input"><span>&gt;</span><span>Command input unavailable</span><span class="terminal-lock">LOCKED</span></div>
+            </div>
+          </section>
+
+          <section class="page" id="page-memory" data-page="memory" aria-labelledby="memoryTitle" hidden>
+            <div class="page-heading"><div><span class="eyebrow">PROJECT CONTEXT</span><h1 id="memoryTitle">Memory</h1><p>Persistent project memory is not implemented.</p></div><span class="badge badge-muted">Not available</span></div>
+            <div class="empty-panel panel"><span class="empty-glyph">◈</span><span class="eyebrow">NO MEMORY STORE</span><h2>No saved memories</h2><p>Hiện không có API hoặc storage cho project memory. Không có thao tác lưu hay chỉnh sửa nào được bật.</p></div>
+          </section>
+
+          <section class="page" id="page-tasks" data-page="tasks" aria-labelledby="tasksTitle" hidden>
+            <div class="page-heading"><div><span class="eyebrow">AUTOMATION</span><h1 id="tasksTitle">Tasks</h1><p>Task queue and workflow execution are not implemented.</p></div><span class="badge badge-muted">Not available</span></div>
+            <div class="empty-panel panel"><span class="empty-glyph">☷</span><span class="eyebrow">NO TASK API</span><h2>No tasks to display</h2><p>Schema có bảng AI job nhưng hiện không có task API hoặc queue để đọc trạng thái thực.</p></div>
+          </section>
+
+          <section class="page" id="page-settings" data-page="settings" aria-labelledby="settingsTitle" hidden>
+            <div class="page-heading"><div><span class="eyebrow">CONFIGURATION</span><h1 id="settingsTitle">Settings</h1><p>Trạng thái các tích hợp hiện có trong project.</p></div></div>
+            <div class="settings-list">
+              <article class="settings-item panel"><span class="setting-icon cyan">A</span><div><strong>Backend API</strong><p>Same-origin API proxy through the local preview server.</p></div><code id="apiOrigin">Loading…</code><span class="badge badge-live" id="settingsApiState">Checking</span></article>
+              <article class="settings-item panel"><span class="setting-icon violet">S</span><div><strong>Sandbox provider</strong><p>Read-only capability endpoint. Execution stays disabled unless backend reports otherwise.</p></div><code>/api/v1/sandboxes/capabilities</code><span class="badge badge-warning" id="settingsSandboxState">Checking</span></article>
+              <article class="settings-item panel"><span class="setting-icon muted">AI</span><div><strong>AI provider credentials</strong><p>No secure credential settings or AI request route is present.</p></div><code>Not configured</code><span class="badge badge-muted">Unavailable</span></article>
+              <article class="settings-item panel"><span class="setting-icon muted">L</span><div><strong>Local agent / filesystem access</strong><p>No frontend file access endpoint is implemented.</p></div><code>Not connected</code><span class="badge badge-muted">Unavailable</span></article>
+            </div>
+            <div class="settings-actions"><button class="button button-secondary" type="button" id="settingsRefresh">Refresh live status <span>↻</span></button><p>No API keys or credentials are collected on this screen.</p></div>
+          </section>
+        </main>
+      </div>
+    </div>
+    <div class="toast-root" id="toastRoot" aria-live="polite"></div>
+  </body>
+</html>
